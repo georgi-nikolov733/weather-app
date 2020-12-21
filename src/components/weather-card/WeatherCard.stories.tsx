@@ -1,0 +1,34 @@
+import { Story } from '@storybook/react/types-6-0';
+import React, { ComponentProps } from 'react';
+import { RecoilRoot } from 'recoil';
+import { Units } from '../../constants/units.constants';
+import { currentWeatherData } from '../../mocks/fixtures/current-weather-data.fixtures';
+import { cityState, unitsState } from '../../recoil/atoms';
+import { WeatherCard } from './WeatherCard';
+
+export default {
+  title: 'WeatherCard',
+  component: WeatherCard,
+};
+
+const Template: Story<ComponentProps<typeof WeatherCard>> = (args) => (
+  <WeatherCard {...args} />
+);
+
+export const Default = Template.bind({});
+Default.args = {
+  data: currentWeatherData,
+};
+Default.decorators = [
+  (Story) => (
+    <RecoilRoot
+      initializeState={({ set }) => {
+        set(cityState, currentWeatherData.name);
+        set(unitsState, Units.Metric);
+      }}
+    >
+      {' '}
+      <Story />
+    </RecoilRoot>
+  ),
+];
