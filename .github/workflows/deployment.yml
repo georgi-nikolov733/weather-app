@@ -1,0 +1,20 @@
+name: deploy
+on: 
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Installing docker
+        uses: docker-practice/actions-setup-docker@master
+      - name: Image build
+        run: docker build --build-arg OPENWEATHERMAP_API_KEY=${{ secrets.API_KEY }} -t weather-app:0.1.0 .
+
+
+       
