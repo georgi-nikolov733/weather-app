@@ -1,0 +1,20 @@
+name: code-checks
+on: pull_request
+jobs:
+  code-checking:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          yarn install
+          yarn add prettier
+      - name: Check formatting with prettier
+        run: yarn run prettier --check .
+      - name: Linting
+        run: yarn run eslint .
+      - name: Installing Chrome
+        uses: browser-actions/setup-chrome@latest
+      - name: Testing
+        run: yarn test
